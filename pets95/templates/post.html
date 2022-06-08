@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block titulo %} {{detail_post.titulo}} {% endblock titulo %}
+
+{% block titulo_baner %}
+<h3>{{detail_post.titulo}}</h3>
+<p>{{detail_post.descripcion}}</p>
+
+{% endblock titulo_baner %}
+
+
+{% block imagen %} {{ detail_post.image.url}} {% endblock imagen %}
+
+
+{% block buscar %}{% endblock buscar %}
+    
+
+
+{% block contenid %}
+{{detail_post.contenido | safe}}
+{% endblock contenid %}
+
+
+
+

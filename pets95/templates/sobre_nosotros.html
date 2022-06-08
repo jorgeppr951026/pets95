@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block titulo %} {{detail_post.titulo}} {% endblock titulo %}
+
+{% block titulo_baner %}{{detail_post.titulo}}{% endblock titulo_baner %}
+
+{% block buscar %}{% endblock buscar %}
+
+{% block contenid %}
+{{detail_post.contenido | safe}}
+
+<h2 class="" style="padding: 20px; text-align: center; color: #55acee;">Conozca nuestro equipo</h2>
+
+
+<div class="row" style="max-width: 1100px;">
+    {% for contact in contacts %}
+    <div class="card mb-2 shadow-sm" style="max-width: 540px; margin-right: 10px;">
+        <div class="card-body">
+            <div class="d-flex flex-column flex-sm-row align-items-sm-center">
+                {% if contact.image %}
+                <div class="me-4 mb-4 mb-sm-0"><img class="rounded-circle bg-gray-300"
+                        style="height: 5rem; width: 5rem;" src="{{contact.image.url}}" alt="David Miller">
+                    <!---->
+                </div>
+                {% else %}
+                <div class="me-4 mb-4 mb-sm-0"><img class="rounded-circle bg-gray-300"
+                        style="height: 5rem; width: 5rem;" src="{% static 'assets/img/cats/cat_avatar.jpg' %}"
+                        alt="David Miller">
+                    <!---->
+                </div>
+                {% endif %}
+                <div>
+                    <h4>{{contact.nombres}} {{ contact.apellidos}}</h4>
+
+                    
+                    {% if contact.reference %}
+                    <p class="small">{{contact.reference}}</p>
+                    {% else %}
+                    <p class="small">Parte del equipo del centro de acogida.</p>
+                    {% endif %}
+                        
+                  
+                    <div class="d-flex flex-row align-items-center small">
+                         {% if contact.facebook %}
+                        <div class="me-3 mb-3 mb-md-0">
+                            <a href="#" class="fab fa-facebook-f fa-1x me-3" style="color: #3b5998;"></a>
+                        </div>
+                        {% endif %}
+
+                        {% if contact.twitter %}
+                        <div class="me-3 mb-3 mb-md-0">
+                            <a href="#" class="fab fa-twitter fa-1x me-3" style="color: #55acee;"></a>
+                        </div>
+                        {% endif %}
+
+                        {% if  contact.instagram %}
+                        <div class="me-3 mb-3 mb-md-0">
+                            <a href="#" class="fab fa-instagram fa-1x me-3" style="color: #ac2bac;"></a>
+                        </div>
+                        {% endif %}
+
+                        {% if contact.watsap %}
+                        <div class="me-3 mb-3 mb-md-0">
+                            <a href="#"><i class="fab fa-whatsapp fa-1x me-3" style="color: #25d366;"></i>{{contact.watsap}}</a>
+                        </div>
+                        {% endif %}
+
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+{% endblock contenid %}

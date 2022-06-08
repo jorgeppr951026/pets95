@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block titulo %} {{pet.name}} {% endblock titulo %}
+
+{% block titulo_baner %}
+<h4>{{pet.name}}</h4>
+
+{% endblock titulo_baner %}
+
+
+
+
+{% block buscar %}{% endblock buscar %}
+
+
+
+{% block contenid %}
+
+
+{% for image in images  %}
+<img src="{{image.image.url}}" alt="" class="rounded float-start img-thumbnail" style="width: 175px; height: 175px; margin-right: 20px;">
+                        
+{% endfor %}
+    
+{% endblock contenid %}

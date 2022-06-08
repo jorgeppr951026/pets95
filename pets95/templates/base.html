@@ -1,0 +1,272 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>{% block titulo %}Clean Blog - Start Bootstrap Theme{% endblock titulo%}</title>
+
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/logo3.png'%}" />
+
+
+    <!-- CSS only-->
+
+
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+
+    {% block style_block %}
+    {% endblock style_block %}
+
+
+
+</head>
+
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <div class="container px-4 px-lg-5">
+
+            <a class="navbar-brand" href=" {% url 'blog:home' %}">
+                <img src="{% static 'assets/img/logo3.png'%}" style="height: 50px;">
+
+                Developer.pe</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                            href=" {% url 'blog:home' %}">Inicio</a></li>
+
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                            href="{% url 'blog:todas_las_mascotas' %}">Todas las mascotas</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                            href="{% url 'blog:gatos' %}">Gatos</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                            href="{% url 'blog:perros' %}">Perros</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                            href="{% url 'blog:sobre_nosotros' %}">Sobre nosotros</a></li>
+
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Page Header-->
+
+
+    <header class="masthead"
+        style="background-image: url('{% block imagen %} {% static 'assets/img/home_baner.jpg' %}{% endblock imagen %}'); ">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h2> {% block titulo_baner %} Developer.pe {% endblock titulo_baner %}</h2>
+                        <!-- <span class="subheading">A Blog Theme by Start Bootstrap</span> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Search -->
+
+        {% block buscar %}
+        <div class="container mt-5">
+
+            <div class="row ">
+                <div class="col-md-12 search">
+                    <form action="" method="get">
+                        <div id="cul-md-12stom-search-input">
+                            <div class="input-group co searchmy">
+
+                                <input type="text" class="form-control"
+                                    placeholder="  {% block buscarPlaceholder %}Encuentra tu mascota...   {% endblock buscarPlaceholder %}"
+                                    name="buscar" value="{{ request.GET.buscar }}">
+                                <span class="input-group-list">
+                                    <i class="icon icon-search"></i>
+                                    <button type="submit" class="btn btn-success">Buscar</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        {% endblock buscar %}
+    </header>
+    <!-- Main Content-->
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+                {% block contenid %}
+                {% if pets %}
+                {% for pet in pets %}
+                <div class="row post-preview ">
+
+                    <div class="col-sm-3">
+                        <div class="row justify-content-center">
+                            {% if pet.image %}
+                            <img src="{{pet.image.url}}" alt="" class="rounded float-start img-thumbnail"
+                                style="width: auto; height: 175px; ">
+
+                            {% elif pet.categoria.nombre == 'Gatos' %}
+                            <img src="{% static 'assets/img/cats/cat_avatar.jpg' %}" alt=""
+                                class="rounded float-start img-thumbnail" style="width:auto ; height: 175px;">
+
+                            {% elif pet.categoria.nombre == 'Perros' %}
+                            <img src="{% static 'assets/img/dogs/dog_avatar.jpg' %}" alt=""
+                                class="rounded float-start img-thumbnail" style="width: auto; height: 175px; ">
+
+                            {% else %}
+                            <img src="{% static 'assets/img/general_avatar.jpg' %}" alt=""
+                                class="rounded float-start img-thumbnail" style="width:auto ; height: 175px; ">
+
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <a href="{% url 'blog:detailPet' pet.id %}">
+                            <h2 class="post-title">{{ pet.name }}</h2>
+                            <h6 class="">Dirección: {{pet.direction}}</h6>
+
+
+                            {% if pet.sex == 'Hembra'%}
+                            <h6 class="">Sexo: <span class="badge rounded-pill"
+                                    style="background-color: #efadce; ">{{pet.sex}}</span> </h6>
+                            {% if pet.sterilization %}
+                            <h6 class="">Estado: <span class="badge rounded-pill"
+                                    style="background-color: #efadce; ">Está
+                                    esterilizada.</span>
+                            </h6>
+                            {% elif not pet.sterilization and pet.estado %}
+                            <h6 class="">Estado: <span class="badge rounded-pill" style="background-color: #efadce; ">No
+                                    está
+                                    esterilizada, se garantiza esterilización posterior en caso de desearlo.</span>
+                            </h6>
+                            {% else %}
+                            <h6 class="">Estado: <span class="badge rounded-pill" style="background-color: #efadce; ">Lo
+                                    sentimos, no
+                                    podemos garantizar su esterilización.
+                                </span>
+                            </h6>
+                            {% endif %}
+
+                            {% else %}
+                            <h6 class="">Sexo: <span class="badge rounded-pill"
+                                    style="background-color: #9eeaf9; ">{{pet.sex}}</span> </h6>
+                            {% if pet.sterilization %}
+                            <h6 class="">Estado: <span class="badge rounded-pill"
+                                    style="background-color: #9eeaf9; ">Está
+                                    esterilizado.</span>
+                            </h6>
+                            {% elif not pet.sterilization and pet.estado %}
+                            <h6 class="">Estado: <span class="badge rounded-pill" style="background-color: #9eeaf9; ">No
+                                    está
+                                    esterilizado, se garantiza esterilización posterior en caso de desearlo.</span>
+                            </h6>
+                            {% else %}
+                            <h6 class="">Estado: <span class="badge rounded-pill" style="background-color: #9eeaf9; ">Lo
+                                    sentimos, no
+                                    podemos
+                                    garantizar su esterilización.
+                                </span>
+                            </h6>
+                            {% endif %}
+
+                            {% endif %}
+                            <p class="text-muted mt-1"><em><small>
+                                        Puesto en adopcion por
+                                        {{pet.dado_por}} el
+                                        {{pet.fecha_creacion}}
+                                    </small></em></p>
+                        </a>
+                    </div>
+                </div>
+                <br />
+                <!-- Divider-->
+                <hr class="my-4" />
+                {% endfor %}
+                {% else %}
+                <div class="mb-3 d-flex justify-content-center">
+                    <h2><em> No hay Mascotas para adoptar!!! </em></h2>
+
+                </div>
+                {% endif %}
+                {% endblock contenid %}
+
+                {% block paginator %}
+                {% if pets.has_previous %}
+                <div class="d-flex justify-content-end mb-4 " style="float: left;"><a class="btn btn-info text-uppercase float-left"
+                        href="?page={{pets.previous_page_number}}{% if  request.GET.search %}&q={{ request.GET.search }} {% endif %}">Anterior</a>
+                </div>
+            
+                {% endif %}
+                {% if pets.has_next %}
+                <div class="d-flex justify-content-end mb-4"><a class="btn btn-info text-uppercase "
+                        href="?page={{pets.next_page_number}}{% if  request.GET.search %}&q={{ request.GET.search }} {% endif %}">Siguiente</a>
+                </div>
+            
+                {% endif %}
+                {% endblock paginator %}
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Pager-->
+   
+
+   
+
+
+    </div>
+
+    </div>
+    </div>
+
+    <!-- Footer-->
+    <footer class="border-top" style="background-color: rgb(204, 204, 204);">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <ul class="list-inline text-center">
+
+                        <a href="#" class="fab fa-facebook-f fa-2x me-3" style="color: #3b5998;"></a>
+                        <a href="#" class="fab fa-twitter fa-2x me-3" style="color: #55acee;"></a>
+                        <a href="#" class="fab fa-instagram fa-2x me-3" style="color: #ac2bac;"></a>
+                        <a href="#" class="fab fa-whatsapp fa-2x me-3" style="color: #25d366;"></a>
+
+
+
+                    </ul>
+
+                    <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2021</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/all.js' %}"></script>
+   
+    <!-- JavaScript Bundle with Popper -->
+
+    <!-- Core theme JS-->
+    <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+
+</html>

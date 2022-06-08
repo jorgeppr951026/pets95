@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block titulo %} {{pet.name}} {% endblock titulo %}
+
+{% block titulo_baner %}
+<h4>{{pet.name}}</h4>
+
+{% endblock titulo_baner %}
+
+
+
+
+{% block buscar %}{% endblock buscar %}
+
+
+
+{% block contenid %}
+<div class=" row post-preview">
+
+    <!--<div class="d-flex p-2 justify-content-center justify-content-sm-start ">-->
+    <div class="col-md-4">
+        <div class="row justify-content-center">
+
+            {% if pet.image %}
+            <img src="{{pet.image.url}}" alt="" class="rounded img-thumbnail" style="width: 200px; height: 200px;">
+
+            {% elif pet.categoria.nombre == 'Gatos' %}
+            <img src="{% static 'assets/img/cats/cat_avatar.jpg' %}" alt="" class="rounded float-start img-thumbnail"
+                style="width: 200px; height: 200px;">
+
+            {% elif pet.categoria.nombre == 'Perros' %}
+            <img src="{% static 'assets/img/dogs/dog_avatar.jpg' %}" alt="" class="rounded float-start img-thumbnail"
+                style="width: 200x; height: 200px;">
+
+            {% else %}
+            <img src="{% static 'assets/img/general_avatar.jpg' %}" alt="" class="rounded float-start img-thumbnail"
+                style="width: 200x; height: 200px;">
+
+            {% endif %}
+        </div>
+
+    </div>
+    <div class="col-md-8">
+
+        <h2 class="post-title">{{ pet.name }}</h2>
+        <h6 class="">Dirección: {{pet.direction}}</h6>
+
+
+        {% if pet.sex == 'Hembra'%}
+        <h6 class="">Sexo: <span class="badge rounded-pill" style="background-color: #efadce; ">{{pet.sex}}</span>
+        </h6>
+        {% if pet.sterilization %}
+        <h6 class="">Estado: <span class="badge rounded-pill" style="background-color: #efadce; ">Está
+                esterilizada.</span>
+        </h6>
+        {% elif not pet.sterilization and pet.estado %}
+        <h6 class="">Estado: <span class="badge rounded-pill" style="background-color: #efadce; ">No está
+                esterilizada, se garantiza esterilización posterior en caso de desearlo.</span>
+        </h6>
+        {% else %}
+        <h6 class="">Estado: <span class="badge rounded-pill" style="background-color: #efadce; ">Lo sentimos, no
+                podemos garantizar su esterilización.
+            </span>
+        </h6>
+        {% endif %}
+
+        {% else %}
+        <h6 class="">Sexo: <span class="badge rounded-pill" style="background-color: #9eeaf9; ">{{pet.sex}}</span>
+        </h6>
+
+        {% if pet.sterilization %}
+        <h6 class="">Estado: <span class="badge rounded-pill" style="background-color: #9eeaf9; ">Está
+                esterilizado.</span>
+        </h6>
+        {% elif not pet.sterilization and pet.estado %}
+        <h6 class="">Estado: <span class="badge rounded-pill" style="background-color: #9eeaf9; ">No está
+                esterilizado, se garantiza esterilización posterior en caso de desearlo.</span>
+        </h6>
+        {% else %}
+        <h6 class="">Estado: <span class="badge rounded-pill" style="background-color: #9eeaf9; ">Lo sentimos, no
+                podemos
+                garantizar su esterilización.
+            </span>
+        </h6>
+        {% endif %}
+        {% endif %}
+
+
+        <h6 class="">Descripción:</h6>
+        <p cla><small> {{pet.description | safe }}</small></p>
+
+
+
+
+
+        <p class="text-muted" style="margin: 0%;"><small><em>
+                    Puesto en adopcion por
+                    {{pet.dado_por}} el
+                    {{pet.fecha_creacion}}
+                </em></small></p>
+
+        <div class="d-flex flex-row align-items-center small" style="margin-top: 5px; margin-bottom: 15px;">
+            {% if pet.dado_por.facebook %}
+            <div class="me-3 mb-3 mb-md-0">
+                <a href="{{pet.dado_por.facebook}}" class="fab fa-facebook-f fa-1x me-3" style="color: #3b5998;"></a>
+            </div>
+            {% endif %}
+
+            {% if pet.dado_por.twitter %}
+            <div class="me-3 mb-3 mb-md-0">
+                <a href="{{pet.dado_por.twitter}}" class="fab fa-twitter fa-1x me-3" style="color: #55acee;"></a>
+            </div>
+            {% endif %}
+
+            {% if pet.dado_por.instagram %}
+            <div class="me-3 mb-3 mb-md-0">
+                <a href="{{pet.dado_por.instagram}}" class="fab fa-instagram fa-1x me-3" style="color: #ac2bac;"></a>
+            </div>
+            {% endif %}
+
+            {% if pet.dado_por.watsap %}
+            <div class="me-3 mb-3 mb-md-0">
+                <a href="{{pet.dado_por.watsap}}"><i class="fab fa-whatsapp fa-1x me-3"
+                        style="color: #25d366;"></i>{{pet.dado_por.watsap}}</a>
+            </div>
+            {% endif %}
+
+        </div>
+
+
+
+    </div>
+
+</div>
+{% endblock contenid %}
